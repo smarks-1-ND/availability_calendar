@@ -1,7 +1,7 @@
 <h1>Team Availability</h1>
 
-<%# Render the calendar, passing our data to the `events` option %>
-<%= month_calendar events: @unavailable_dates, attribute: :day do |date, unavailable_dates_on_day| %>
+<%# Render the calendar, passing our data to the `events` option and the specific date %>
+<%= month_calendar events: @unavailable_dates, attribute: :day, date: @date do |date, unavailable_dates_on_day| %>
   <div class="date-number"><%= date.day %></div>
 
   <%# List everyone who is unavailable on this day %>
@@ -10,7 +10,7 @@
       <li>
         <%= ua.user_name %>
         <%# Add a simple "X" to delete the entry %>
-        <%= button_to "X", unavailable_date_path(ua), method: :delete, class: "delete-btn" %>
+        <%= button_to "X", unavailable_date_path(ua), method: :delete, class: "delete-btn", params: { date: @date.strftime("%Y-%m-01") } %>
       </li>
     <% end %>
   </ul>
