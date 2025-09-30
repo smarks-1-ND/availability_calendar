@@ -1,0 +1,35 @@
+<h1>Team Availability</h1>
+
+<%# Render the calendar, passing our data to the `events` option %>
+<%= month_calendar events: @unavailable_dates, attribute: :day do |date, unavailable_dates_on_day| %>
+  <div class="date-number"><%= date.day %></div>
+
+  <%# List everyone who is unavailable on this day %>
+  <ul class="unavailable-list">
+    <% unavailable_dates_on_day.each do |ua| %>
+      <li>
+        <%= ua.user_name %>
+        <%# Add a simple "X" to delete the entry %>
+        <%= button_to "X", unavailable_date_path(ua), method: :delete, class: "delete-btn" %>
+      </li>
+    <% end %>
+  </ul>
+
+  <%# This form allows users to add themselves to the blackout list for this day %>
+  <%= form_with(model: @new_unavailable_date, class: "blackout-form") do |form| %>
+    <%= form.hidden_field :day, value: date %>
+    <%= form.text_field :user_name, placeholder: "Your Name" %>
+    <%= form.submit "I'm busy" %>
+  <% end %>
+<% end %>
+
+<%# Basic styling to make it look good %>
+<style>
+  .simple-calendar .day { width: 14.28%; padding: 10px; border: 1px solid #ccc; min-height: 150px; }
+  .date-number { font-weight: bold; font-size: 1.2em; }
+  .unavailable-list { list-style: none; padding: 0; margin: 5px 0; }
+  .unavailable-list li { background-color: #ffdddd; border-left: 3px solid #f44336; padding: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
+  .delete-btn { background: none; border: none; color: #f44336; cursor: pointer; font-weight: bold; }
+  .blackout-form { margin-top: 10px; display: flex; }
+  .blackout-form input[type="text"] { flex-grow: 1; }
+</style>

@@ -1,0 +1,76 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+/* Simple Calendar styles */
+.simple-calendar {
+  table {
+    -webkit-border-horizontal-spacing: 0px;
+    -webkit-border-vertical-spacing: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  tr {
+    border-collapse: collapse;
+  }
+
+  th {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    border-left: 1px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    border-top: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  td {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    border-left: 1px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    border-top: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .day {
+    height: 80px;
+    vertical-align: top;
+    width: 14.2857%;
+  }
+
+  .today {
+    background-color: #fcf8e3;
+  }
+  .past {
+    color: #999;
+  }
+  .future {
+    color: #000;
+  }
+
+  .prev-month {
+    color: #999;
+  }
+  .next-month {
+    color: #999;
+  }
+
+  .has-events {
+    color: #000;
+    background-color: #fff;
+  }
+}

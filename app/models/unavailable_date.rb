@@ -1,0 +1,2 @@
+class UnavailableDate < ApplicationRecord
+end
