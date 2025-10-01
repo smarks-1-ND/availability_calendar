@@ -1,7 +1,10 @@
 <h1>Team Availability</h1>
 
-<%# Render the calendar, passing our data to the `events` option and the specific date %>
-<%= month_calendar events: @unavailable_dates, attribute: :day, date: @date do |date, unavailable_dates_on_day| %>
+<%# Debug: Show what date we're displaying %>
+<p><strong>Debug:</strong> Currently showing <%= @date.strftime("%B %Y") %> (date param: <%= params[:date] %>)</p>
+
+<%# Render the calendar %>
+<%= month_calendar events: @unavailable_dates, attribute: :day, start_date_param: :date do |date, unavailable_dates_on_day| %>
   <div class="date-number"><%= date.day %></div>
 
   <%# List everyone who is unavailable on this day %>
@@ -16,13 +19,34 @@
   </ul>
 
   <%# This form allows users to add themselves to the blackout list for this day %>
-  <%= form_with(model: @new_unavailable_date, class: "blackout-form") do |form| %>
+  <%= form_with(model: @new_unavailable_date, class: "blackout-form", local: true) do |form| %>
     <%= form.hidden_field :day, value: date %>
-    <%= form.hidden_field :current_month, value: @date.strftime("%Y-%m-01") %>
     <%= form.text_field :user_name, placeholder: "Your Name" %>
     <%= form.submit "I'm busy" %>
   <% end %>
 <% end %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // When any form is submitted, capture the current URL parameters
+  document.querySelectorAll('.blackout-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      // Get current URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentDate = urlParams.get('date');
+      
+      if (currentDate) {
+        // Add the current date as a hidden field
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = 'return_to_date';
+        hiddenField.value = currentDate;
+        form.appendChild(hiddenField);
+      }
+    });
+  });
+});
+</script>
 
 <%# Basic styling to make it look good %>
 <style>

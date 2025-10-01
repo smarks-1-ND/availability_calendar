@@ -7,14 +7,24 @@ class UnavailableDatesController < ApplicationController
     
     # Handle date parameter to show specific month
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    
+    # Debug: Let's see what date we're showing
+    puts "DEBUG: index action - params[:date] = #{params[:date]}"
+    puts "DEBUG: index action - @date = #{@date}"
+    puts "DEBUG: index action - @date month/year = #{@date.strftime('%B %Y')}"
   end
 
   def create
     @unavailable_date = UnavailableDate.new(unavailable_date_params)
     if @unavailable_date.save
-      # Use the current_month parameter if provided, otherwise use the date that was just created
-      redirect_month = params[:unavailable_date][:current_month] || @unavailable_date.day.strftime("%Y-%m-01")
-      redirect_to root_path(date: redirect_month), notice: "Date marked as unavailable!"
+      # Use the return_to_date parameter if provided (from JavaScript)
+      if params[:return_to_date].present?
+        redirect_to root_path(date: params[:return_to_date]), notice: "Date marked as unavailable!"
+      else
+        # Fallback: redirect to the month of the created date
+        created_month = @unavailable_date.day.beginning_of_month
+        redirect_to root_path(date: created_month.strftime("%Y-%m-%d")), notice: "Date marked as unavailable!"
+      end
     else
       # Re-render the index page with the existing data and an error message
       @unavailable_dates = UnavailableDate.all
@@ -37,7 +47,7 @@ class UnavailableDatesController < ApplicationController
   private
 
   def unavailable_date_params
-    params.require(:unavailable_date).permit(:user_name, :day, :current_month)
+    params.require(:unavailable_date).permit(:user_name, :day)
   end
 
   def redirect_path_with_date(date)
