@@ -21,21 +21,44 @@ test:
   database: storage/test.sqlite3
 
 
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
+# Store production database in PostgreSQL for persistence
 production:
   primary:
-    <<: *default
-    database: storage/production.sqlite3
+    adapter: postgresql
+    encoding: unicode
+    host: <%= ENV["DATABASE_HOST"] %>
+    database: <%= ENV["DATABASE_NAME"] %>
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    port: <%= ENV["DATABASE_PORT"] || 5432 %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   cache:
-    <<: *default
-    database: storage/production_cache.sqlite3
+    adapter: postgresql
+    encoding: unicode
+    host: <%= ENV["DATABASE_HOST"] %>
+    database: <%= ENV["DATABASE_NAME"] %>_cache
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    port: <%= ENV["DATABASE_PORT"] || 5432 %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
     migrations_paths: db/cache_migrate
   queue:
-    <<: *default
-    database: storage/production_queue.sqlite3
+    adapter: postgresql
+    encoding: unicode
+    host: <%= ENV["DATABASE_HOST"] %>
+    database: <%= ENV["DATABASE_NAME"] %>_queue
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    port: <%= ENV["DATABASE_PORT"] || 5432 %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
     migrations_paths: db/queue_migrate
   cable:
-    <<: *default
-    database: storage/production_cable.sqlite3
+    adapter: postgresql
+    encoding: unicode
+    host: <%= ENV["DATABASE_HOST"] %>
+    database: <%= ENV["DATABASE_NAME"] %>_cable
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    port: <%= ENV["DATABASE_PORT"] || 5432 %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
     migrations_paths: db/cable_migrate
