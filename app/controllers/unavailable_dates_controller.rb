@@ -7,11 +7,6 @@ class UnavailableDatesController < ApplicationController
     
     # Handle date parameter to show specific month
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
-    
-    # Debug: Let's see what date we're showing
-    puts "DEBUG: index action - params[:date] = #{params[:date]}"
-    puts "DEBUG: index action - @date = #{@date}"
-    puts "DEBUG: index action - @date month/year = #{@date.strftime('%B %Y')}"
   end
 
   def create

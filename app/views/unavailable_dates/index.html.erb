@@ -1,8 +1,5 @@
 <h1>Team Availability</h1>
 
-<%# Debug: Show what date we're displaying %>
-<p><strong>Debug:</strong> Currently showing <%= @date.strftime("%B %Y") %> (date param: <%= params[:date] %>)</p>
-
 <%# Render the calendar %>
 <%= month_calendar events: @unavailable_dates, attribute: :day, start_date_param: :date do |date, unavailable_dates_on_day| %>
   <div class="date-number"><%= date.day %></div>
