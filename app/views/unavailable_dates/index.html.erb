@@ -18,6 +18,7 @@
   <%# This form allows users to add themselves to the blackout list for this day %>
   <%= form_with(model: @new_unavailable_date, class: "blackout-form") do |form| %>
     <%= form.hidden_field :day, value: date %>
+    <%= form.hidden_field :current_month, value: @date.strftime("%Y-%m-01") %>
     <%= form.text_field :user_name, placeholder: "Your Name" %>
     <%= form.submit "I'm busy" %>
   <% end %>
